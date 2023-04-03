@@ -1,13 +1,22 @@
 from flask import Flask, render_template, request
-import pickle
-import pandas
+import pandas as pd
 import numpy as np
 
-popular_df = pickle.load(open('popular.pkl', 'rb'))
+with open('popular.pkl', 'rb') as fo:
+    popular_df = pd.read_pickle(fo)
 
-pt = pickle.load(open('pt.pkl', 'rb'))
-books = pickle.load(open('books.pkl', 'rb'))
-similarity_scores = pickle.load(open('similarity_scores.pkl', 'rb'))
+# popular_df = pickle.load(open('popular.pkl', 'rb'))
+
+with open('pt.pkl', 'rb') as fo:
+    pt = pd.read_pickle(fo)
+
+# pt = pickle.load(open('pt.pkl', 'rb'))
+
+with open('books.pkl', 'rb') as fo:
+    books = pd.read_pickle(fo)
+
+with open('similarity_scores.pkl', 'rb') as fo:
+    similarity_scores = pd.read_pickle(fo)
 
 app = Flask(__name__)
 
@@ -19,7 +28,8 @@ def index():
                            author=list(popular_df['Book-Author'].values),
                            image=list(popular_df['Image-URL-L'].values),
                            votes=list(popular_df['num_ratings'].values),
-                           rating=list(popular_df['avg_rating'].values.round()),
+                           rating=list(
+                               popular_df['avg_rating'].values.round()),
                            )
 
 
@@ -42,20 +52,22 @@ def recommend():
     user_input = request.form['user_input']
     try:
         index = np.where(pt.index == user_input)[0][0]
-        similar_items = sorted(list(enumerate(similarity_scores[index])), key=lambda x: x[1], reverse=True)[1:5]
+        similar_items = sorted(
+            list(enumerate(similarity_scores[index])), key=lambda x: x[1], reverse=True)[1:5]
 
         for i in similar_items:
             item = []
             temp_df = books[books['Book-Title'] == pt.index[i[0]]]
-            item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Title'].values))
-            item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Author'].values))
-            item.extend(list(temp_df.drop_duplicates('Book-Title')['Image-URL-M'].values))
+            item.extend(list(temp_df.drop_duplicates(
+                'Book-Title')['Book-Title'].values))
+            item.extend(list(temp_df.drop_duplicates(
+                'Book-Title')['Book-Author'].values))
+            item.extend(list(temp_df.drop_duplicates(
+                'Book-Title')['Image-URL-M'].values))
 
             data.append(item)
 
             print(data)
-
-
 
     # index = books.index(user_input)
     except:
@@ -73,5 +85,3 @@ def about_ui():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
