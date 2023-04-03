@@ -1,18 +1,18 @@
 from flask import Flask, render_template, request
-import pickle
+import pandas as pd
 import numpy as np
 
 with open('popular.pkl', 'rb') as f:
-    popular_df = pickle.load(f)
+    popular_df = pd.read_pickle(f)
 
 with open('pt.pkl', 'rb') as f:
-    pt = pickle.load(f)
+    pt = pd.read_pickle(f)
 
 with open('books.pkl', 'rb') as f:
-    books = pickle.load(f)
+    books = pd.read_pickle(f)
 
 with open('similarity_scores.pkl', 'rb') as f:
-    similarity_scores = pickle.load(f)
+    similarity_scores = pd.read_pickle(f)
 
 
 app = Flask(__name__)
