@@ -5,12 +5,8 @@ import numpy as np
 with open('popular.pkl', 'rb') as fo:
     popular_df = pd.read_pickle(fo)
 
-# popular_df = pickle.load(open('popular.pkl', 'rb'))
-
 with open('pt.pkl', 'rb') as fo:
     pt = pd.read_pickle(fo)
-
-# pt = pickle.load(open('pt.pkl', 'rb'))
 
 with open('books.pkl', 'rb') as fo:
     books = pd.read_pickle(fo)
