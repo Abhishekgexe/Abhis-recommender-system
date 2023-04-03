@@ -1,7 +1,6 @@
+import numpy as np
 from flask import Flask, render_template, request
 import pandas as pd
-import numpy as np
-
 with open('popular.pkl', 'rb') as fo:
     popular_df = pd.read_pickle(fo)
 
