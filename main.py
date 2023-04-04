@@ -68,7 +68,7 @@ def recommend():
 
     # index = books.index(user_input)
     except:
-        error_message = f"Book '{user_input}' not found in dataset, Please try searching for some known book."
+        error_message = f"Book '{user_input}' not found in dataset, Please try searching for some known book. For e.g. Beloved"
         print(error_message)
         return render_template('recommend.html', error=error_message)
 
