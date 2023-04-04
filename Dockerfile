@@ -10,4 +10,4 @@ COPY . /app
 RUN pip install -r requirements.txt
 
 # Define the entry point for the container
-CMD ["flask", "run", "entrypoint-main"]
+CMD ["flask", "run", "wsgi:app"]
